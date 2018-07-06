@@ -1,0 +1,31 @@
+#Default port is 5555
+server:
+  port: 5555
+  
+#Setting logging levels
+logging:
+    level:
+      com.netflix: WARN
+      org.springframework.web: WARN
+      com.scc: DEBUG
+
+authentication:
+  username: "eagleeye"
+  password: "thisissecret"
+  urlToken: "http://localhost:8095/auth/oauth/token"
+
+zuul:
+  ignored-services: "*"
+  sensitiveHeaders: Authorization
+  prefix:  /api
+  routes : 
+    dogservice:
+      path: /dog/**
+      url : http://dog-service:8090
+
+    authenticationservice: 
+      path: /auth/**
+      url : http://authentication-service:8095
+
+
+            

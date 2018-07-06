@@ -1,0 +1,17 @@
+#Default port is 5555
+server:
+  port: 5555
+  
+#Setting logging levels
+logging:
+    level:
+      com.netflix: WARN
+      org.springframework.web: WARN
+      com.scc: DEBUG
+
+zuul:
+  ignored-services: "*"
+  prefix:  /api
+  routes : 
+    dogservice:
+      url : http://dog-service:8090
