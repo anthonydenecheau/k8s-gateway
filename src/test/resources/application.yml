@@ -9,6 +9,11 @@ logging:
       org.springframework.web: WARN
       com.scc: DEBUG
 
+authentication:
+  username: "eagleeye"
+  password: "thisissecret"
+  urlToken: "http://authentication-service:8095/auth/oauth/token"
+  
 zuul:
   ignored-services: "*"
   prefix:  /api
