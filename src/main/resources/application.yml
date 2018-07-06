@@ -12,7 +12,7 @@ logging:
 authentication:
   username: "eagleeye"
   password: "thisissecret"
-  urlToken: "http://localhost:8095/auth/oauth/token"
+  urlToken: "http://authentication-service:8095/auth/oauth/token"
 
 zuul:
   ignored-services: "*"
