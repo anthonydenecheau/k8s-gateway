@@ -10,8 +10,8 @@ logging:
       com.scc: DEBUG
 
 authentication:
-  username: "eagleeye"
-  password: "thisissecret"
+  username: "usertest"
+  password: "passwordtest"
   urlToken: "http://authentication-service:8095/auth/oauth/token"
   
 zuul:

@@ -89,6 +89,8 @@ public class AuthenticationFilter extends ZuulFilter {
         
         try {
 
+        	logger.debug("call getToken {}, {}, {}", authentification_key, config.getUsername(), config.getPassword());
+
             MultiValueMap<String, String> map= new LinkedMultiValueMap<String, String>();
             map.add("username", authentification_key);
             map.add("password", "pwd");
@@ -104,11 +106,11 @@ public class AuthenticationFilter extends ZuulFilter {
                         , UserToken.class
             );
 
-        	logger.debug("getToken {}",restExchange.getBody().toString());
         	token = restExchange.getBody().getAccess_token(); 
+        	logger.debug("response getToken {}", token);
         }
         catch(HttpClientErrorException ex){
-            logger.error(ex.getLocalizedMessage());
+            logger.error("HttpClientErrorException {}",ex.getLocalizedMessage());
             if (ex.getStatusCode()==HttpStatus.UNAUTHORIZED) {
                 //return null;
             }
@@ -124,7 +126,7 @@ public class AuthenticationFilter extends ZuulFilter {
 
         // 1. Check if X-SCC-authentification is present
 		if (isAuthentificationKeyIsPresent()) {
-			logger.debug("authentification key found in tracking filter: {}. ", filterUtils.getAuthentificationKey());
+			logger.debug("Authentication key found in tracking filter: {}. ", filterUtils.getAuthentificationKey());
 			// 2. Check if token is still present
 	        if (isAuthTokenPresent()){
 	            logger.debug("Authentication token is present.");
@@ -132,14 +134,16 @@ public class AuthenticationFilter extends ZuulFilter {
 	        	// Appel d'un token
 	        	token = getToken(filterUtils.getAuthentificationKey());
 	        	if (!"".equals(token) && token != null) {
+	        		logger.debug("Add authentication token {}", token);
         			filterUtils.setAuthToken(token);
 	        	} else {
-		             ctx.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
-		             ctx.setSendZuulResponse(false);
+		            logger.debug("Authentication token is not present.");
+		            ctx.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
+		            ctx.setSendZuulResponse(false);
 	        	}
 	        }
 		} else {
-			logger.debug("authentification key not found");
+			logger.debug("Authentication key not found");
 	        if (isAuthTokenPresent()){
 	            logger.debug("Authentication token is present.");
 	         }else{
