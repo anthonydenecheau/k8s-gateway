@@ -135,7 +135,7 @@ public class AuthenticationFilter extends ZuulFilter {
 	        	token = getToken(filterUtils.getAuthentificationKey());
 	        	if (!"".equals(token) && token != null) {
 	        		logger.debug("Add authentication token {}", token);
-        			filterUtils.setAuthToken(token);
+        			filterUtils.setAuthToken("Bearer " + token);
 	        	} else {
 		            logger.debug("Authentication token is not present.");
 		            ctx.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());

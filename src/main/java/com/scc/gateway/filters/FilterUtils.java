@@ -40,7 +40,7 @@ public class FilterUtils {
 
 	 public void setAuthToken(String token){
 		RequestContext ctx = RequestContext.getCurrentContext();
-		ctx.addZuulRequestHeader(AUTH_TOKEN, "Bearer " + token);
+		ctx.addZuulRequestHeader(AUTH_TOKEN, token);
 	 }
 
 }
