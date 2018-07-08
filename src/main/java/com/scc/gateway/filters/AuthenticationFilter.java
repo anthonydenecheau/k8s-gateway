@@ -146,6 +146,7 @@ public class AuthenticationFilter extends ZuulFilter {
 			logger.debug("Authentication key not found");
 	        if (isAuthTokenPresent()){
 	            logger.debug("Authentication token is present.");
+	            filterUtils.setAuthToken(filterUtils.getAuthToken());
 	         }else{
 	             logger.debug("Authentication token is not present.");
 	             ctx.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());

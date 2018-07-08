@@ -10,9 +10,9 @@ logging:
       com.scc: DEBUG
 
 management:
-  endpoints:
-    web:
-      base-path: /manage
+#  endpoints:
+#    web:
+#      base-path: /manage
   security:
     enabled: false
 
