@@ -9,10 +9,17 @@ logging:
       org.springframework.web: WARN
       com.scc: DEBUG
 
+management:
+  endpoints:
+    web:
+      base-path: /manage
+  security:
+    enabled: false
+
 authentication:
   username: ${AUTH_USER}
   password: ${AUTH_PASSWORD}
-  urlToken: "http://authentication-service:8095/auth/oauth/token"
+  urlToken: http://authentication-service:8095/auth/oauth/token
 
 zuul:
   ignored-services: "*"
