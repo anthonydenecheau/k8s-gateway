@@ -10,10 +10,13 @@ logging:
       com.scc: DEBUG
 
 authentication:
-  username: "usertest"
-  password: "passwordtest"
-  urlToken: "http://authentication-service:8095/auth/oauth/token"
-  
+  username: usertest
+  password: passwordtest
+  scope: scopetest
+  grant_type: granttest
+  default_password_api: pwdtest
+  tokenUri: http://authentication-service:8095/auth/oauth/token
+    
 zuul:
   ignored-services: "*"
   prefix:  /api
