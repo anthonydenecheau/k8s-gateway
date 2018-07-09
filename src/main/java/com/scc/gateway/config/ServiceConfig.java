@@ -14,11 +14,23 @@ public class ServiceConfig {
   @Value("${authentication.password}")
   private String password="";
 
-  @Value("${authentication.urlToken}")
-  private String urlToken="";
-  
+  @Value("${authentication.tokenUri}")
+  private String tokenUri="";
+
+  @Value("${authentication.scope}")
+  private String scope="";
+
+  @Value("${authentication.grant_type}")
+  private String grant_type="";
+
+  @Value("${authentication.default_password_api}")
+  private String default_password_api="";
+
   public String getUsername() { return username;}
   public String getPassword() { return password; }
-  public String getUrlToken() { return urlToken; }
+  public String getTokenUri() { return tokenUri; }
+  public String getScope() { return scope; }
+  public String getGrant_type() { return grant_type; }
+  public String getDefault_password_api() { return default_password_api; }
 
 }

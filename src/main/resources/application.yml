@@ -1,25 +1,28 @@
 #Default port is 5555
 server:
   port: 5555
-  
-#Setting logging levels
-logging:
-    level:
-      com.netflix: WARN
-      org.springframework.web: WARN
-      com.scc: DEBUG
 
+info:
+  app:
+    name: Gateway
+  
+endpoints:
+    enabled: false
+    info.enabled: true
+    health.enabled: true
+    metrics.enabled: true
+  
 management:
-#  endpoints:
-#    web:
-#      base-path: /manage
   security:
     enabled: false
-
+    
 authentication:
   username: ${AUTH_USER}
   password: ${AUTH_PASSWORD}
-  urlToken: http://authentication-service:8095/auth/oauth/token
+  scope: ${AUTH_SCOPE}
+  grant_type: ${AUTH_GRANT}
+  default_password_api: ${AUTH_DEFAULT_PASSWORD_API}
+  tokenUri: http://authentication-service:8095/auth/oauth/token
 
 zuul:
   ignored-services: "*"
@@ -34,5 +37,11 @@ zuul:
       path: /auth/**
       url : http://authentication-service:8095
 
-
+  
+#Setting logging levels
+logging:
+    level:
+      com.netflix: WARN
+      org.springframework.web: WARN
+      com.scc: DEBUG
             

@@ -93,15 +93,15 @@ public class AuthenticationFilter extends ZuulFilter {
 
             MultiValueMap<String, String> map= new LinkedMultiValueMap<String, String>();
             map.add("username", authentification_key);
-            map.add("password", "pwd");
-            map.add("scope", "webclient");
-            map.add("grant_type", "password");
+            map.add("password", config.getDefault_password_api());
+            map.add("scope", config.getScope());
+            map.add("grant_type", config.getGrant_type());
 
             HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map,  createHeaders(config.getUsername(), config.getPassword()));
         	
         	restExchange =
                 restTemplate.postForEntity(
-                		config.getUrlToken()
+                		config.getTokenUri()
                 		, request
                         , UserToken.class
             );
@@ -124,19 +124,24 @@ public class AuthenticationFilter extends ZuulFilter {
     	String token = null;
     	RequestContext ctx = RequestContext.getCurrentContext();
 
-        // 1. Check if X-SCC-authentification is present
+    	// Search authentication rule
+    	// . by key header == X-SCC-authentification
+    	// . by token == Bearer
+    	
+        // Check if X-SCC-authentification is present
 		if (isAuthentificationKeyIsPresent()) {
 			logger.debug("Authentication key found in tracking filter: {}. ", filterUtils.getAuthentificationKey());
-			// 2. Check if token is still present
+			// Check if token is present
 	        if (isAuthTokenPresent()){
 	            logger.debug("Authentication token is present.");
 	        } else {
-	        	// Appel d'un token
+	        	// Retrieve token
 	        	token = getToken(filterUtils.getAuthentificationKey());
 	        	if (!"".equals(token) && token != null) {
 	        		logger.debug("Add authentication token {}", token);
         			filterUtils.setAuthToken("Bearer " + token);
 	        	} else {
+	        		// Wrong key header
 		            logger.debug("Authentication token is not present.");
 		            ctx.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
 		            ctx.setSendZuulResponse(false);
