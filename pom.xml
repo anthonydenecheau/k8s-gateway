@@ -47,9 +47,9 @@
 		<version>0.0.4</version>
 	</dependency>
 	<dependency>
-	    <groupId>io.jaegertracing</groupId>
+	    <groupId>com.uber.jaeger</groupId>
 	    <artifactId>jaeger-core</artifactId>
-	    <version>0.30.0</version>
+	    <version>0.18.0</version>
 	</dependency>
 
 	<dependency>
