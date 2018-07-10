@@ -16,21 +16,21 @@ management:
   security:
     enabled: false
     
-#authentication:
-#  username: ${AUTH_USER}
-#  password: ${AUTH_PASSWORD}
-#  scope: ${AUTH_SCOPE}
-#  grant_type: ${AUTH_GRANT}
-#  default_password_api: ${AUTH_DEFAULT_PASSWORD_API}
-#  tokenUri: http://authentication-service:8095/auth/oauth/token
-
 authentication:
-  username: AUTH_USER
-  password: AUTH_PASSWORD
-  scope: AUTH_SCOPE
-  grant_type: AUTH_GRANT
-  default_password_api: AUTH_DEFAULT_PASSWORD_API
+  username: ${AUTH_USER}
+  password: ${AUTH_PASSWORD}
+  scope: ${AUTH_SCOPE}
+  grant_type: ${AUTH_GRANT}
+  default_password_api: ${AUTH_DEFAULT_PASSWORD_API}
   tokenUri: http://authentication-service:8095/auth/oauth/token
+
+#authentication:
+#  username: AUTH_USER
+#  password: AUTH_PASSWORD
+#  scope: AUTH_SCOPE
+#  grant_type: AUTH_GRANT
+#  default_password_api: AUTH_DEFAULT_PASSWORD_API
+#  tokenUri: http://authentication-service:8095/auth/oauth/token
   
   
 zuul:
