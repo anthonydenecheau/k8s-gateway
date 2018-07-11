@@ -40,7 +40,7 @@
       	<groupId>org.springframework.boot</groupId>
       	<artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
-
+<!-- 
 	<dependency>
 		<groupId>io.opentracing.contrib</groupId>
 		<artifactId>opentracing-spring-web-autoconfigure</artifactId>
@@ -52,7 +52,14 @@
 	    <version>0.18.0</version>
 	</dependency>
 
-	<dependency>
+ -->
+ 	<dependency>
+	    <groupId>io.opentracing.contrib</groupId>
+	    <artifactId>opentracing-spring-cloud-starter-jaeger</artifactId>
+	    <version>0.1.13</version>
+	</dependency>
+  
+ 	<dependency>
 	    <groupId>commons-codec</groupId>
 	    <artifactId>commons-codec</artifactId>
 	    <version>1.2</version>

@@ -6,8 +6,13 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
-import com.uber.jaeger.Configuration;
-import com.uber.jaeger.samplers.ProbabilisticSampler;
+
+import io.jaegertracing.samplers.ConstSampler;
+import io.jaegertracing.Configuration;
+import io.jaegertracing.Configuration.ReporterConfiguration;
+import io.jaegertracing.Configuration.SamplerConfiguration;
+import io.jaegertracing.Configuration.SenderConfiguration;
+import io.opentracing.Tracer;
 
 
 @SpringBootApplication
@@ -15,26 +20,30 @@ import com.uber.jaeger.samplers.ProbabilisticSampler;
 public class Application {
 
 //	@Bean
-//	public io.opentracing.Tracer tracer() {
-//		// tracer instance of your choice (Zipkin, Jaeger, LightStep)
-//		Reporter reporter = new InMemoryReporter();
-//		Sampler sampler = new ConstSampler(true);
-//		Tracer tracer = new JaegerTracer.Builder("gateway")
-//		  .registerInjector(Format.Builtin.HTTP_HEADERS, new B3TextMapCodec())
-//		  .registerExtractor(Format.Builtin.HTTP_HEADERS, new B3TextMapCodec())				
-//		  .withReporter(reporter)
-//		  .withSampler(sampler)
-//		  .build();
-//		return tracer;
+//	public io.opentracing.Tracer jaegerTracer() {
+//		return new Configuration("gateway", new Configuration.SamplerConfiguration(ProbabilisticSampler.TYPE, 1),
+//				new Configuration.ReporterConfiguration())
+//				.getTracer();
 //	}
 
 	@Bean
-	public io.opentracing.Tracer jaegerTracer() {
-		return new Configuration("gateway", new Configuration.SamplerConfiguration(ProbabilisticSampler.TYPE, 1),
-				new Configuration.ReporterConfiguration())
-				.getTracer();
+	public Tracer jaegerTracer() {
+		
+		final Tracer tracer = new Configuration("gateway")
+			    .withSampler(
+			        new SamplerConfiguration()
+			            .withType(ConstSampler.TYPE)
+			            .withParam(new Float(1.0f)))
+			    .withReporter(
+			        new ReporterConfiguration()
+//			            .withSender(
+//			                new SenderConfiguration()
+//			                    .withEndpoint("http://localhost:14268/api/traces"))
+			     )
+			    .getTracer();
+		return tracer;
+			    
 	}
-	
     @Bean
     public RestTemplate getRestTemplate(){
         return new RestTemplate();
