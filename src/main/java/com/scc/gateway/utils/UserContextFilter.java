@@ -21,7 +21,6 @@ public class UserContextFilter implements Filter {
 
 	@Autowired
 	io.opentracing.Tracer tracer;
-
 	
 	@Override
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
@@ -30,9 +29,12 @@ public class UserContextFilter implements Filter {
 		HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
 		UserContextHolder.getContext()
 				.setAuthentificationKey(httpServletRequest.getHeader(UserContext.AUTHENTICATION_KEY));
-		logger.debug("Incoming Authentification key: {}", UserContextHolder.getContext().getAuthentificationKey());
+		
+		if (httpServletRequest.getRequestURI().indexOf("api") > 0)
+		    logger.debug("Incoming Authentification key: {}", UserContextHolder.getContext().getAuthentificationKey());
 
 		filterChain.doFilter(httpServletRequest, servletResponse);
+		
 	}
 
 	@Override

@@ -11,20 +11,12 @@ import io.jaegertracing.samplers.ConstSampler;
 import io.jaegertracing.Configuration;
 import io.jaegertracing.Configuration.ReporterConfiguration;
 import io.jaegertracing.Configuration.SamplerConfiguration;
-import io.jaegertracing.Configuration.SenderConfiguration;
 import io.opentracing.Tracer;
 
 
 @SpringBootApplication
 @EnableZuulProxy
 public class Application {
-
-//	@Bean
-//	public io.opentracing.Tracer jaegerTracer() {
-//		return new Configuration("gateway", new Configuration.SamplerConfiguration(ProbabilisticSampler.TYPE, 1),
-//				new Configuration.ReporterConfiguration())
-//				.getTracer();
-//	}
 
 	@Bean
 	public Tracer jaegerTracer() {
@@ -35,11 +27,7 @@ public class Application {
 			            .withType(ConstSampler.TYPE)
 			            .withParam(new Float(1.0f)))
 			    .withReporter(
-			        new ReporterConfiguration()
-//			            .withSender(
-//			                new SenderConfiguration()
-//			                    .withEndpoint("http://localhost:14268/api/traces"))
-			     )
+			        new ReporterConfiguration())
 			    .getTracer();
 		return tracer;
 			    

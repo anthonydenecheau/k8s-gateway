@@ -5,8 +5,8 @@ RUN mkdir -p /usr/local/gateway
 ADD @project.build.finalName@.jar /usr/local/gateway/
 
 ENV JAVA_OPTS="-Duser.timezone=Europe/Paris"
-ENV SPRING_PROFILE="default"
-ENV SERVER_PORT="8080"
+ENV SPRING_PROFILE=${SPRING_PROFILE}
+ENV SERVER_PORT=${SERVER_PORT}
 
 ENTRYPOINT exec java $JAVA_OPTS \
  -Dserver.port=$SERVER_PORT \

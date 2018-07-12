@@ -1,7 +1,3 @@
-#Default port is 5555
-server:
-  port: 5555
-
 info:
   app:
     name: "@project.name@"
@@ -12,22 +8,22 @@ endpoints:
     info.enabled: true
     health.enabled: true
     metrics.enabled: true
-  
+
 management:
   info:
     git:
       mode: full
   security:
-    enabled: false
+    enabled: ${MANAGEMENT_SECURITY_ENABLED}
     
 authentication:
-  username: AUTH_USER
-  password: AUTH_PASSWORD
-  scope: AUTH_SCOPE
-  grant_type: AUTH_GRANT
-  default_password_api: AUTH_DEFAULT_PASSWORD_API
+  username: ${AUTH_USER}
+  password: ${AUTH_PASSWORD}
+  scope: ${AUTH_SCOPE}
+  grant_type: ${AUTH_GRANT}
+  default_password_api: ${AUTH_DEFAULT_PASSWORD_API}
   tokenUri: http://authentication-service:8095/auth/oauth/token
-  
+
 opentracing:
   jaeger:
     log-spans: false
