@@ -127,37 +127,30 @@ public class AuthenticationFilter extends ZuulFilter {
     	// Search authentication rule
     	// . by key header == X-SCC-authentification
     	// . by token == Bearer
-    	
-        // Check if X-SCC-authentification is present
-		if (isAuthentificationKeyIsPresent()) {
-			logger.debug("Authentication key found in tracking filter: {}. ", filterUtils.getAuthentificationKey());
-			// Check if token is present
-	        if (isAuthTokenPresent()){
-	            logger.debug("Authentication token is present.");
+
+		// Check if token is present (...), no action
+		if (isAuthTokenPresent())
+			logger.debug("Authentication token is present.");
+		else
+			// Check if X-SCC-authentification is present (...), call a token
+			if (isAuthentificationKeyIsPresent()) {
+				logger.debug("Authentication key found in tracking filter: {}. ", filterUtils.getAuthentificationKey());
+				// Retrieve token
+				token = getToken(filterUtils.getAuthentificationKey());
+				if (!"".equals(token) && token != null) {
+					logger.debug("Add authentication token {}", token);
+					filterUtils.setAuthToken("Bearer " + token);
+				} else {
+					// Wrong key header
+					logger.debug("Authentication token is not present.");
+					ctx.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
+					ctx.setSendZuulResponse(false);
+				}
 	        } else {
-	        	// Retrieve token
-	        	token = getToken(filterUtils.getAuthentificationKey());
-	        	if (!"".equals(token) && token != null) {
-	        		logger.debug("Add authentication token {}", token);
-        			filterUtils.setAuthToken("Bearer " + token);
-	        	} else {
-	        		// Wrong key header
-		            logger.debug("Authentication token is not present.");
-		            ctx.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
-		            ctx.setSendZuulResponse(false);
-	        	}
+				logger.debug("Authentication token is not present.");
+				ctx.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
+				ctx.setSendZuulResponse(false);
 	        }
-		} else {
-			logger.debug("Authentication key not found");
-	        if (isAuthTokenPresent()){
-	            logger.debug("Authentication token is present.");
-	            filterUtils.setAuthToken(filterUtils.getAuthToken());
-	         }else{
-	             logger.debug("Authentication token is not present.");
-	             ctx.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
-	             ctx.setSendZuulResponse(false);
-	         }
-		}
 
         return null;
 
