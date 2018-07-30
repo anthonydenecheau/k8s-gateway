@@ -4,7 +4,7 @@ RUN apk update && apk upgrade && apk add netcat-openbsd
 RUN mkdir -p /usr/local/gateway
 ADD @project.build.finalName@.jar /usr/local/gateway/
 
-ENV JAVA_OPTS="-Duser.timezone=Europe/Paris"
+ENV JAVA_OPTS=${JAVA_OPTS}
 ENV SPRING_PROFILE=${SPRING_PROFILE}
 ENV SERVER_PORT=${SERVER_PORT}
 
